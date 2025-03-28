@@ -1,0 +1,20 @@
+spring:
+   application:
+      name: tax-tracker
+   datasource:
+      url: jdbc:mysql://localhost:3306/taxtracker
+      username: root
+      password: password
+      driver-class-name: com.mysql.cj.jdbc.Driver
+   jpa:
+      hibernate:
+         ddl-auto: none
+         
+server:
+   port: 8080
+   
+base-url: localhost:8080/
+
+spring.security.user:
+   name: admin
+   password: admin123

@@ -1,0 +1,49 @@
+.logo{
+  font-size: 1em;
+  font-weight: bold;
+  color: rgb(0, 63, 0);
+}
+
+.sidebar-content {
+    height: 100%; 
+    width: 160px; 
+    font-size: 28px;
+    padding: .5em;
+    position: fixed; 
+    z-index: 1; 
+    top: 0; 
+    left: 0;
+    background-color: #e4e4e4; 
+    overflow-x: hidden; 
+    padding-top: 20px;
+    text-align: left;
+  }
+  
+
+  .sidebar-content a {
+    padding: 10px 16px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #000000;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .sidebar-content a:hover {
+    color: darkgreen;
+  }
+
+  nav {
+    justify-content: center;
+    margin-top: 10px;
+}
+
+nav a:last-child {
+    margin-right: 0; 
+}
+
+nav a:hover{
+    color: lightgreen;
+}
+  
