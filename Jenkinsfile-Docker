@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    stages{
+        stage('Build Docker Images'){
+            steps{
+
+            }
+
+            sh '''
+            echo "Building Docker Image: aws-cli ... "
+            docker build -f ci/Dockerfile -t aws-cli .
+
+            #future DB docker build
+            echo "Building docker image: $DOCKER_IMAGE"
+
+            
+            '''
+        }
+    }
+}
