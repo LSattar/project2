@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage ('AWS LCI') {
+        stage ('AWS CLI') {
             agent {
                 docker{
                     image 'amazon/aws-cli'
