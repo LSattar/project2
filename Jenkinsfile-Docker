@@ -4,8 +4,6 @@ pipeline {
         stage('Build Docker Images'){
             steps{
 
-            }
-
             sh '''
             echo "Building Docker Image: aws-cli ... "
             docker build -f ci/Dockerfile -t aws-cli .
@@ -15,6 +13,8 @@ pipeline {
 
             
             '''
+            }
+
         }
     }
 }
