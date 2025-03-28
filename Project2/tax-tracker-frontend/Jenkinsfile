@@ -10,7 +10,15 @@ pipeline {
                 }
             }
             steps {
-                sh 'aws --version'
+                withCredentials([usernamePassword
+                (credentialsId: 'GitHub', passwordVariable: 'AWS_SECRET_ACCESS_Key',
+                 usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+                    sh '''
+                    echo "Listing AWS CLI"
+                    echo aws --version
+                    '''
+    // some block
+}
             }
         }
     }
