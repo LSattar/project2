@@ -73,10 +73,10 @@ pipeline {
                     echo "Sending revised Task Definition to ECS"
 
                     #send task-definition to AWS
-                    LATEST_TD=$(aws ecs register-task-definition --cli-input-json 'file://aws/task-definition.json'
-                     | jq '.taskDefinition.revision')
+                    LATEST_TD=$(aws ecs register-task-definition --cli-input-json file://aws/task-definition.json | jq '.taskDefinition.revision')
 
-                     echo "Latest Task Definition Revision... $LATEST_TD"
+
+                    echo "Latest Task Definition Revision... $LATEST_TD"
 
                     #update ecs cluster
                     # In AWS create a service for the cluster
