@@ -1,23 +1,46 @@
 pipeline {
     agent any
 
+    environment {
+            REACT_APP_VERSION = "1.0.$BUILD_ID"
+            AWS_DEFAULT_REGION = "us-east-1"
+            AWS_ECR_REPO = "530789571735.dkr.ecr.us-east-1.amazonaws.com"
+            APP_NAME = "ljs-project2"
+            AWS_ECS_TD = "ljs-project2-td"
+    }
+
     stages {
-        stage ('AWS CLI') {
+        stage ('Build Docker Image & Push to ECR') {
             agent {
                 docker{
                     image 'aws-cli'
-                    args "--entrypoint=''"
+                    args "-u root -v /var/run/docker.sock:/var/run/docker.sock --entrypoint=''"
+                    reuseNode true
                 }
+            }
+            environment{
+                AWS_S3_BUCKET = '20250225-dal'
             }
             steps {
                 withCredentials([usernamePassword
-                (credentialsId: 'GitHub', passwordVariable: 'AWS_SECRET_ACCESS_Key',
+                (credentialsId: 'aws', passwordVariable: 'AWS_SECRET_ACCESS_Key',
                  usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                     sh '''
-                    echo "Listing AWS CLI"
-                    echo aws --version
+                    aws sts get-caller-identity
+                    aws ecr describe-repositories
+                    docker --version
+
+                    aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin
+                    $AWS_ECR_REPO
+
+                    echo "REACT_APP_VERSION=1.0$BUILD_ID > .env
+
+                    docker build -t $AWS_ECR_REPO/$APP_NAME-frontend:$REACT_APP_VERSION . 
+                    docker push $AWS_ECR_REPO/$APP_NAME-frontend:$REACT_APP_VERSION
+
+                    #BUILD BACKEND IMAGE & PUSH
+
                     '''
-    // some block
 }
             }
         }
