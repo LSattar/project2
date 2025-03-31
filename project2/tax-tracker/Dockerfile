@@ -10,7 +10,7 @@ RUN npm install
 
 RUN ls -R /app
 
-COPY certs/global-bundle.pem /certs/
+# COPY certs/global-bundle.pem /certs/
 COPY . . 
 
 RUN ls -R /certs
