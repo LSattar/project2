@@ -68,23 +68,24 @@ pipeline {
                  usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                     sh '''
                     aws --version
-                    # swap values for task-definition
+
+                    # Swap version in ECS task definition
                     sed -i "s/#APP_VERSION#/$REACT_APP_VERSION/g" aws/task-definition.json
                     echo "Sending revised Task Definition to ECS"
 
                     echo "task-definition.json values"
                     cat aws/task-definition.json
 
-                    #send task-definition to AWS
-                    LATEST_TD=$(aws ecs register-task-definition --cli-input-json file://aws/task-definition.json | jq '.taskDefinition.revision')
-
+                    # Register new task definition
+                    LATEST_TD=$(
+                    aws ecs register-task-definition --cli-input-json file://aws/task-definition.json |
+                    jq '.taskDefinition.revision'
+                    )
 
                     echo "Latest Task Definition Revision... $LATEST_TD"
 
-                    #update ecs cluster
-                    # In AWS create a service for the cluster
-                    aws ecs update-service --cluster $AWS_ECS_CLUSTER --service $AWS_ECS_SERVICE --task-definition
-                    $AWS_ECS_TD:$LATEST_TD
+                    # Update ECS service
+                    aws ecs update-service --cluster $AWS_ECS_CLUSTER --service $AWS_ECS_SERVICE --task-definition $AWS_ECS_TD:$LATEST_TD
                     '''
                  }
             }
