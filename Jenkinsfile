@@ -7,6 +7,11 @@ pipeline {
             AWS_ECR_REPO = "530789571735.dkr.ecr.us-east-1.amazonaws.com"
             APP_NAME = "ljs"
             AWS_ECS_TD = "ljs-project2-td"
+            AWS_ECS_CLUSTER = "ljs-project2-cluster"
+            AWS_ECS_SERVICE = "ljst-project2-svc"
+            AWS_ECS_TD = "ljs-project2-td"
+            AWS_ALBTG = ""
+
     }
 
     stages {
@@ -46,6 +51,38 @@ pipeline {
 
                     '''
 }
+            }
+        }
+        stage ('Deploy to AWS'){
+            agent{
+                docker{
+                    image 'aws-cli'
+                    args '--entrypoint=""'
+                    reuseNode true
+                }
+            }
+            steps {
+                withCredentials([usernamePassword
+                (credentialsId: 'aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY',
+                 usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+                    sh '''
+                    aws --version
+                    # swap values for task-definition
+                    sed -i "s/#APP_VERSION#/$REACT_APP_VERSION/g" aws/task-definition.json
+                    echo "Sending revised Task Definition to ECS"
+
+                    #send task-definition to AWS
+                    LATEST_TD=$(aws ecs register-task-definition --cli-input-json 'file://aws/task-definition.json'
+                     | jq '.taskDefinition.revision')
+
+                     echo "Latest Task Definition Revision... $LATEST_TD"
+
+                    #update ecs cluster
+                    # In AWS create a service for the cluster
+                    aws ecs update-service --cluster $AWS_ECS_CLUSTER --service $AWS_ECS_SERVICE --task-definition
+                    $AWS_ECS_TD:$LATEST_TD
+                    '''
+                 }
             }
         }
     }
