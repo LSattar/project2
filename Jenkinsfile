@@ -39,9 +39,6 @@ pipeline {
 
                     echo "REACT_APP_VERSION=1.0$BUILD_ID" > .env
 
-                    echo "LS root"
-                    ls -la
-
                     echo "LS project2"
                     ls -la project2
 
