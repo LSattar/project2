@@ -39,8 +39,7 @@ pipeline {
 
                     echo "REACT_APP_VERSION=1.0$BUILD_ID" > .env
 
-                    docker build -t $AWS_ECR_REPO/$APP_NAME-frontend:$REACT_APP_VERSION -f project2/Dockerfile project2/tax-tracker-frontend
-
+                    docker build -t $AWS_ECR_REPO/$APP_NAME-frontend:$REACT_APP_VERSION -f project2/project2/Dockerfile project2/project2/tax-tracker-frontend
                     docker push $AWS_ECR_REPO/$APP_NAME-frontend:$REACT_APP_VERSION
 
                     #BUILD BACKEND IMAGE & PUSH
