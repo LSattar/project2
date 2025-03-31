@@ -37,7 +37,7 @@ pipeline {
                     aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin 530789571735.dkr.ecr.us-east-1.amazonaws.com
                     echo $AWS_ECR_REPO
 
-                    echo "REACT_APP_VERSION=1.0$BUILD_ID > .env
+                    echo "REACT_APP_VERSION=1.0$BUILD_ID" > .env
 
                     docker build -t $AWS_ECR_REPO/$APP_NAME-frontend:$REACT_APP_VERSION . 
                     docker push $AWS_ECR_REPO/$APP_NAME-frontend:$REACT_APP_VERSION
