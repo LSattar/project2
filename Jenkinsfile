@@ -69,7 +69,7 @@ pipeline {
                     sh '''
                     aws --version
                     # swap values for task-definition
-                    sed -i "s/#APP_VERSION#/$REACT_APP_VERSION/g" aws/task-definition.json
+                    sed -i "s/#APP_VERSION#/$REACT_APP_VERSION/g" aws/task-definition.json"
                     echo "Sending revised Task Definition to ECS"
 
                     #send task-definition to AWS
