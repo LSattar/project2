@@ -13,8 +13,8 @@ RUN ls -R /app
 # COPY certs/global-bundle.pem /certs/
 COPY . . 
 
-RUN ls -R /certs
+# RUN ls -R /certs
 
-EXPOSE 5050
+EXPOSE 8080
 
 CMD ["node", "index.js"]
