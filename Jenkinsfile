@@ -23,7 +23,7 @@ pipeline {
             }
             steps {
                 withCredentials([usernamePassword
-                (credentialsId: 'aws', passwordVariable: 'AWS_SECRET_ACCESS_Key',
+                (credentialsId: 'aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY',
                  usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                     sh '''
                     aws sts get-caller-identity
@@ -39,6 +39,10 @@ pipeline {
                     docker push $AWS_ECR_REPO/$APP_NAME-frontend:$REACT_APP_VERSION
 
                     #BUILD BACKEND IMAGE & PUSH
+
+                    docker build -t $AWS_ECR_REPO/$APP_NAME-backend:$VITE_APP_VERSION -f 'Project 2/Backend
+                    Dockerfile' tax-tracker
+                    docker push$AWS_ECR_REPO/$APP_NAME-backend:$VITE_APP_VERSION
 
                     '''
 }
