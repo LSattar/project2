@@ -47,8 +47,8 @@ pipeline {
 
                     #BUILD BACKEND IMAGE & PUSH
 
-                    docker build -t $AWS_ECR_REPO/$APP_NAME-backend:$VITE_APP_VERSION -f Project2/tax-tracker/Dockerfile Project2/tax-tracker
-                    docker push $AWS_ECR_REPO/$APP_NAME-backend:$VITE_APP_VERSION
+                    docker build -t $AWS_ECR_REPO/$APP_NAME-backend:$REACT_APP_VERSION -f Project2/tax-tracker/Dockerfile Project2/tax-tracker
+                    docker push $AWS_ECR_REPO/$APP_NAME-backend:$REACT_APP_VERSION
 
                     '''
 }
