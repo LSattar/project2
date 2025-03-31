@@ -4,9 +4,9 @@ RUN npm install -g node-jq
 
 WORKDIR /app
 
-COPY package*.json ./
+# COPY package*.json ./
 
-RUN npm install 
+# RUN npm install 
 
 RUN ls -R /app
 
