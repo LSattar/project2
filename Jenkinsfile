@@ -1,6 +1,5 @@
 pipeline {
     agent any
-
     environment {
             REACT_APP_VERSION = "1.0.$BUILD_ID"
             AWS_DEFAULT_REGION = "us-east-1"
@@ -12,32 +11,7 @@ pipeline {
             AWS_ALBTG = ""
 
     }
-
     stages {
-
-
-
-        stage ('SonarQube Analysis'){
-            environment{
-                SONAR_SCANNER_HOME = tool 'Sonar' //GLOBAL TOOL CONFIG
-            }
-            steps {
-                withSonarQubeEnv('Sonar'){
-                    sh'''
-                        echo "Injected SonarQube URL: $SONAR_HOST_URL"
-
-                        ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
-                        -Dsonar.projectKey=jenkins-scan \
-                        -Dsonar.projectName=jenkins-scan \
-                        -Dsonar.projectVersion=1.0 \
-                        -Dsonar.sources=. 
-
-                        echo "Code scanning complete. Check SonarQube for analysis"
-                    '''
-                }
-            }
-        }
-
         stage ('Build Docker Image & Push to ECR') {
             agent {
                 docker{

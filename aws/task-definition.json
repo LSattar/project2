@@ -1,0 +1,39 @@
+{
+    "family": "ljs-project2-td",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": ["FARGATE"],
+    "cpu": "512",
+    "memory": "1024",
+    "executionRoleArn": "arn:aws:iam::530789571735:role/ecsTaskExecutionRole",
+    "containerDefinitions": [
+      {
+        "name": "frontend",
+        "image": "530789571735.dkr.ecr.us-east-1.amazonaws.com/ljs-frontend:#APP_VERSION#",
+        "essential": true,
+        "portMappings": [
+          {
+            "containerPort": 3000,
+            "protocol": "tcp"
+          }
+        ]
+      },
+      {
+        "name": "backend",
+        "image": "530789571735.dkr.ecr.us-east-1.amazonaws.com/ljs-backend:#APP_VERSION#",
+        "essential": true,
+        "portMappings": [
+          {
+            "containerPort": 5000,
+            "protocol": "tcp"
+          }
+        ],
+        "environment": [
+          {
+            "name": "NODE_ENV",
+            "value": "production"
+          }
+        ]
+      }
+    ]
+  }
+  
