@@ -37,12 +37,16 @@ pipeline {
                     echo "LS project2"
                     ls -la project2
 
-                    docker build -t $AWS_ECR_REPO/$APP_NAME-frontend:$REACT_APP_VERSION -f project2/Dockerfile project2/tax-tracker-frontend
+                    docker build --network=host \
+                    -t $AWS_ECR_REPO/$APP_NAME-frontend:$REACT_APP_VERSION \
+                    -f project2/Dockerfile project2/tax-tracker-frontend
+
                     docker push $AWS_ECR_REPO/$APP_NAME-frontend:$REACT_APP_VERSION
 
-                    #BUILD BACKEND IMAGE & PUSH
+                    docker build --network=host \
+                    -t $AWS_ECR_REPO/$APP_NAME-backend:$REACT_APP_VERSION \
+                    -f project2/tax-tracker/Dockerfile project2/tax-tracker
 
-                    docker build -t $AWS_ECR_REPO/$APP_NAME-backend:$REACT_APP_VERSION -f project2/tax-tracker/Dockerfile project2/tax-tracker
                     docker push $AWS_ECR_REPO/$APP_NAME-backend:$REACT_APP_VERSION
 
                     '''
