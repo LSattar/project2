@@ -19,7 +19,7 @@ pipeline {
 
         stage ('SonarQube Analysis'){
             environment{
-                SONAR_SCANNER_HOME = '/opt/sonar-scanner' //GLOBAL TOOL CONFIG
+                SONAR_SCANNER_HOME = tool 'Sonar' //GLOBAL TOOL CONFIG
             }
             steps {
                 withSonarQubeEnv('Sonar'){
