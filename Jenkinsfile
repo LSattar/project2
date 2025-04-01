@@ -14,6 +14,26 @@ pipeline {
     }
 
     stages {
+
+        stage ('SonarQube Analysis'){
+            environment{
+                SONAR_SCANNER_HOME = tool 'Sonar' //GLOBAL TOOL CONFIG
+            }
+            steps {
+                withSonarQubeEnv('Sonar'){
+                    sh'''
+                        ${SONAR_SCANNER_HOME}/bin/sonar-scanner \ -Dsonar.
+                        -Dsonar.projectKey=jenkins-scan \
+                        -Dsonar.projectName=jenkins-scan \
+                        -Dsonar.projectVersion=1.0 \
+                        -Dsonar.sources=. 
+
+                        echo "Code scanning complete. Check SonarQube for analysis"
+                    '''
+                }
+            }
+        }
+
         stage ('Build Docker Image & Push to ECR') {
             agent {
                 docker{
