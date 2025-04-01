@@ -116,9 +116,5 @@ pipeline {
         }
     }
     post{
-        always{
-            echo "Docker scout logs"
-            archiveArtifacts artifacts: 'docker-scout-log/*.log' fingerprint: true
-        }
     }
 }
