@@ -20,9 +20,6 @@ pipeline {
                     reuseNode true
                 }
             }
-            environment{
-                AWS_S3_BUCKET = '20250225-dal'
-            }
             steps {
                 withCredentials([usernamePassword
                 (credentialsId: 'aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY',
