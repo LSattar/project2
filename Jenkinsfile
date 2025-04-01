@@ -7,7 +7,7 @@ pipeline {
             APP_NAME = "ljs"
             AWS_ECS_TD = "ljs-project2-td"
             AWS_ECS_CLUSTER = "ljs-project2-cluster"
-            AWS_ECS_SERVICE = "ljst-project2-svc"
+            AWS_ECS_SERVICE = "ljs-project2-svc"
             AWS_ALBTG = ""
 
     }
