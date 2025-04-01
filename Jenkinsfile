@@ -115,6 +115,4 @@ pipeline {
             }
         }
     }
-    post{
-    }
 }
