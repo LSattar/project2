@@ -22,6 +22,8 @@ pipeline {
             steps {
                 withSonarQubeEnv('Sonar'){
                     sh'''
+                        echo "Injected SonarQube URL: $SONAR_HOST_URL"
+
                         ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
                         -Dsonar.projectKey=jenkins-scan \
                         -Dsonar.projectName=jenkins-scan \
