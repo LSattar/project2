@@ -22,7 +22,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('Sonar'){
                     sh'''
-                        ${SONAR_SCANNER_HOME}/bin/sonar-scanner \ -Dsonar.
+                        ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
                         -Dsonar.projectKey=jenkins-scan \
                         -Dsonar.projectName=jenkins-scan \
                         -Dsonar.projectVersion=1.0 \
