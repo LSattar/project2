@@ -15,33 +15,7 @@ pipeline {
 
     stages {
 
-        stage('Docker Scout Scan'){
-            agent{
-                docker{
-                    image 'aws-cli'
-                    args '-u root -v /var/run/docker.sock:/var/run/docker.sock --entrypoint=""'
-                    reuseNode true
-                }
-            }
-            steps{
-                withCredentials([usernamePassword
-                (credentialsId: 'Docker-Login', passwordVariable: 'DockerHub_Password',
-                 usernameVariable: 'DockerHub_Username')]){
-                    sh '''
-                    mkdir -p docker-scout-logs
 
-                    curl -FsSl https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin
-
-                    docker-scout version > docker-scout-logs/version.log
-
-                    docker login -u "$DockerHub_Username" -p "$DockerHub_Password"
-
-                    docker-scout quickview "$AWS_ECR_REPO/$APP_NAME-frontend:$REACT_APP_VERSION > docker-scout-logs/
-                    '''
-                 }
-
-            }
-        }
 
         stage ('SonarQube Analysis'){
             environment{
