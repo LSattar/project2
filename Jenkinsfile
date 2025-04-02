@@ -33,10 +33,7 @@ pipeline {
                     echo $AWS_ECR_REPO
 
                     echo "REACT_APP_VERSION=1.0$BUILD_ID" > .env
-
-                    cd project2/tax-tracker
-                    ./mvnw clean package -DskipTests
-
+                    
                     docker build --network=host \
                     -t $AWS_ECR_REPO/$APP_NAME-frontend:$REACT_APP_VERSION \
                     -f project2/Dockerfile project2
