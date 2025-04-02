@@ -39,7 +39,8 @@ pipeline {
                     -f project2/Dockerfile project2
 
                     docker push $AWS_ECR_REPO/$APP_NAME-frontend:$REACT_APP_VERSION
-
+                    
+                    ls project2/tax-tracker
                     ls project2/tax-tracker/target
 
                     docker build --network=host \
