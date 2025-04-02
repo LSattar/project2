@@ -1,20 +1,5 @@
-FROM node:18-alpine
-
-RUN npm install -g node-jq
-
+FROM openjdk:17-jdk-alpine
 WORKDIR /app
-
-# COPY package*.json ./
-
-# RUN npm install 
-
-RUN ls -R /app
-
-# COPY certs/global-bundle.pem /certs/
-COPY . . 
-
-# RUN ls -R /certs
-
+COPY target/*.jar app.jar
 EXPOSE 8080
-
-CMD ["node", "index.js"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
