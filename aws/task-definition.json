@@ -9,7 +9,7 @@
     "containerDefinitions": [
       {
         "name": "ljs-backend",
-        "image": "530789571735.dkr.ecr.us-east-1.amazonaws.com/ljs-backend:#APP_VERSION#",
+        "image": "530789571735.dkr.ecr.us-east-1.amazonaws.com/ljs-backend:latest#APP_VERSION#",
         "essential": true,
         "portMappings": [
           {

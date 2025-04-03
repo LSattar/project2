@@ -1,0 +1,268 @@
+Enter AWS region [default: us-east-1]: Enter ECS Cluster Name [default: ljs-project2-cluster]: Enter Task Definition Family Name [default: ljs-project2-td]: Enter ECS Service Name [default: ljs-project2-svc]: Enter Container Name [default: ljs]: Using default Docker image tag: latest
+Enter ALB Name [default: ljs-project2-alb]: Enter Target Group Name [default: ljs-project2-tg]: Enter Security Group Name [default: ljs-project2-securitygroup]: Looking up default VPC in region us-east-1...
+Using default VPC: vpc-0bff2c4b7229fc92f
+Creating ECS cluster: ljs-project2-cluster
+{
+    "cluster": {
+        "clusterArn": "arn:aws:ecs:us-east-1:530789571735:cluster/ljs-project2-cluster",
+        "clusterName": "ljs-project2-cluster",
+        "status": "ACTIVE",
+        "registeredContainerInstancesCount": 0,
+        "runningTasksCount": 0,
+        "pendingTasksCount": 0,
+        "activeServicesCount": 0,
+        "statistics": [],
+        "tags": [
+            {
+                "key": "Name",
+                "value": "ljs"
+            }
+        ],
+        "settings": [
+            {
+                "name": "containerInsights",
+                "value": "disabled"
+            }
+        ],
+        "capacityProviders": [],
+        "defaultCapacityProviderStrategy": []
+    }
+}
+Creating Load Balancer: ljs-project2-alb
+Creating Target Group: ljs-project2-tg
+Creating Listener for Load Balancer
+{
+    "Listeners": [
+        {
+            "ListenerArn": "arn:aws:elasticloadbalancing:us-east-1:530789571735:listener/app/ljs-project2-alb/7c54ed349391030e/86c6fe7c3df1dea3",
+            "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-east-1:530789571735:loadbalancer/app/ljs-project2-alb/7c54ed349391030e",
+            "Port": 80,
+            "Protocol": "HTTP",
+            "DefaultActions": [
+                {
+                    "Type": "forward",
+                    "TargetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:530789571735:targetgroup/ljs-project2-tg/42bfbbc3ed3c2ad6",
+                    "ForwardConfig": {
+                        "TargetGroups": [
+                            {
+                                "TargetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:530789571735:targetgroup/ljs-project2-tg/42bfbbc3ed3c2ad6",
+                                "Weight": 1
+                            }
+                        ],
+                        "TargetGroupStickinessConfig": {
+                            "Enabled": false
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
+Registering Task Definition: ljs-project2-td
+{
+    "taskDefinition": {
+        "taskDefinitionArn": "arn:aws:ecs:us-east-1:530789571735:task-definition/ljs-project2-td:26",
+        "containerDefinitions": [
+            {
+                "name": "ljs-backend",
+                "image": "530789571735.dkr.ecr.us-east-1.amazonaws.com/ljs-backend:latest",
+                "cpu": 0,
+                "portMappings": [
+                    {
+                        "containerPort": 8080,
+                        "hostPort": 8080,
+                        "protocol": "tcp",
+                        "appProtocol": "http"
+                    }
+                ],
+                "essential": true,
+                "environment": [],
+                "mountPoints": [],
+                "volumesFrom": [],
+                "logConfiguration": {
+                    "logDriver": "awslogs",
+                    "options": {
+                        "awslogs-group": "/ecs/ljs-project2-td",
+                        "awslogs-region": "us-east-1",
+                        "awslogs-stream-prefix": "ecs"
+                    }
+                },
+                "systemControls": []
+            },
+            {
+                "name": "ljs-frontend",
+                "image": "530789571735.dkr.ecr.us-east-1.amazonaws.com/ljs-frontend:latest",
+                "cpu": 0,
+                "portMappings": [
+                    {
+                        "containerPort": 3000,
+                        "hostPort": 3000,
+                        "protocol": "tcp"
+                    }
+                ],
+                "essential": true,
+                "environment": [],
+                "mountPoints": [],
+                "volumesFrom": [],
+                "logConfiguration": {
+                    "logDriver": "awslogs",
+                    "options": {
+                        "awslogs-group": "/ecs/ljs-project2-td",
+                        "awslogs-region": "us-east-1",
+                        "awslogs-stream-prefix": "ecs"
+                    }
+                },
+                "systemControls": []
+            }
+        ],
+        "family": "ljs-project2-td",
+        "taskRoleArn": "arn:aws:iam::530789571735:role/ecsTaskExecutionRole",
+        "executionRoleArn": "arn:aws:iam::530789571735:role/ecsTaskExecutionRole",
+        "networkMode": "awsvpc",
+        "revision": 26,
+        "volumes": [],
+        "status": "ACTIVE",
+        "requiresAttributes": [
+            {
+                "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+            },
+            {
+                "name": "ecs.capability.execution-role-awslogs"
+            },
+            {
+                "name": "com.amazonaws.ecs.capability.ecr-auth"
+            },
+            {
+                "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+            },
+            {
+                "name": "com.amazonaws.ecs.capability.task-iam-role"
+            },
+            {
+                "name": "ecs.capability.execution-role-ecr-pull"
+            },
+            {
+                "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+            },
+            {
+                "name": "ecs.capability.task-eni"
+            }
+        ],
+        "placementConstraints": [],
+        "compatibilities": [
+            "EC2",
+            "FARGATE"
+        ],
+        "requiresCompatibilities": [
+            "FARGATE"
+        ],
+        "cpu": "1024",
+        "memory": "3072",
+        "registeredAt": "2025-04-03T08:21:42.031000-04:00",
+        "registeredBy": "arn:aws:sts::530789571735:assumed-role/AWSReservedSSO_Student_4b328382c0c91ac5/lsattar@skillstorm.com"
+    }
+}
+Creating ECS Service: ljs-project2-svc
+{
+    "service": {
+        "serviceArn": "arn:aws:ecs:us-east-1:530789571735:service/ljs-project2-cluster/ljs-project2-svc",
+        "serviceName": "ljs-project2-svc",
+        "clusterArn": "arn:aws:ecs:us-east-1:530789571735:cluster/ljs-project2-cluster",
+        "loadBalancers": [
+            {
+                "targetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:530789571735:targetgroup/ljs-project2-tg/42bfbbc3ed3c2ad6",
+                "containerName": "ljs-frontend",
+                "containerPort": 3000
+            }
+        ],
+        "serviceRegistries": [],
+        "status": "ACTIVE",
+        "desiredCount": 1,
+        "runningCount": 0,
+        "pendingCount": 0,
+        "launchType": "FARGATE",
+        "platformVersion": "LATEST",
+        "platformFamily": "Linux",
+        "taskDefinition": "arn:aws:ecs:us-east-1:530789571735:task-definition/ljs-project2-td:26",
+        "deploymentConfiguration": {
+            "deploymentCircuitBreaker": {
+                "enable": false,
+                "rollback": false
+            },
+            "maximumPercent": 200,
+            "minimumHealthyPercent": 100
+        },
+        "deployments": [
+            {
+                "id": "ecs-svc/5350108261317670370",
+                "status": "PRIMARY",
+                "taskDefinition": "arn:aws:ecs:us-east-1:530789571735:task-definition/ljs-project2-td:26",
+                "desiredCount": 0,
+                "pendingCount": 0,
+                "runningCount": 0,
+                "failedTasks": 0,
+                "createdAt": "2025-04-03T08:21:43.806000-04:00",
+                "updatedAt": "2025-04-03T08:21:43.806000-04:00",
+                "launchType": "FARGATE",
+                "platformVersion": "1.4.0",
+                "platformFamily": "Linux",
+                "networkConfiguration": {
+                    "awsvpcConfiguration": {
+                        "subnets": [
+                            "subnet-06361dc75cfcf204d",
+                            "subnet-06c1502bf4ff888b0",
+                            "subnet-0b900ceba05ed521c",
+                            "subnet-0b26cea7a0c66cf75",
+                            "subnet-0ff17145291239dd8",
+                            "subnet-09100cdd6243099f8"
+                        ],
+                        "securityGroups": [
+                            "sg-0937ca57bad548bb1"
+                        ],
+                        "assignPublicIp": "ENABLED"
+                    }
+                },
+                "rolloutState": "IN_PROGRESS",
+                "rolloutStateReason": "ECS deployment ecs-svc/5350108261317670370 in progress."
+            }
+        ],
+        "roleArn": "arn:aws:iam::530789571735:role/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS",
+        "events": [],
+        "createdAt": "2025-04-03T08:21:43.806000-04:00",
+        "placementConstraints": [],
+        "placementStrategy": [],
+        "networkConfiguration": {
+            "awsvpcConfiguration": {
+                "subnets": [
+                    "subnet-06361dc75cfcf204d",
+                    "subnet-06c1502bf4ff888b0",
+                    "subnet-0b900ceba05ed521c",
+                    "subnet-0b26cea7a0c66cf75",
+                    "subnet-0ff17145291239dd8",
+                    "subnet-09100cdd6243099f8"
+                ],
+                "securityGroups": [
+                    "sg-0937ca57bad548bb1"
+                ],
+                "assignPublicIp": "ENABLED"
+            }
+        },
+        "healthCheckGracePeriodSeconds": 0,
+        "schedulingStrategy": "REPLICA",
+        "deploymentController": {
+            "type": "ECS"
+        },
+        "tags": [
+            {
+                "key": "Name",
+                "value": "ljs"
+            }
+        ],
+        "createdBy": "arn:aws:iam::530789571735:role/aws-reserved/sso.amazonaws.com/AWSReservedSSO_Student_4b328382c0c91ac5",
+        "enableECSManagedTags": false,
+        "propagateTags": "NONE",
+        "enableExecuteCommand": false,
+        "availabilityZoneRebalancing": "DISABLED"
+    }
+}
+Deployment complete. Service 'ljs-project2-svc' is now running in ECS cluster 'ljs-project2-cluster'.
