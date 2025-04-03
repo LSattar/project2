@@ -98,6 +98,7 @@ pipeline {
                     aws ecs create-cluster \
                     --cluster-name "$AWS_ECS_CLUSTER" \
                     --region "$AWS_DEFAULT_REGION" \
+                    --settings name=containerInsights,value=enabled \
                     --tags key="Name",value="$APP_NAME" || true
 
                     echo "Creating Load Balancer: $AWS_ALB"
