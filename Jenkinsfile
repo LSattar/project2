@@ -77,9 +77,8 @@ pipeline {
                     --region "$AWS_DEFAULT_REGION" \
                     --output text)
 
-                    SUBNET_CSV=$(echo "$SUBNET_IDS" | tr '\t' ',')
-                    SUBNET_ARRAY=$(echo "$SUBNET_CSV" | sed 's/,/","/g')
-                    SUBNET_ARRAY="\"$SUBNET_ARRAY\""
+                    SUBNET_JSON=$(printf '"%s"' $SUBNET_IDS | sed 's/ /","/g')
+
 
                     SG_ID=$(aws ec2 describe-security-groups \
                     --filters Name=group-name,Values="$AWS_SECURITY_GROUP" \
@@ -146,7 +145,7 @@ pipeline {
                     --task-definition "$AWS_ECS_TD" \
                     --desired-count 1 \
                     --launch-type FARGATE \
-                    --network-configuration "awsvpcConfiguration={subnets=[$SUBNET_ARRAY],securityGroups=[\\"$SG_ID\\"],assignPublicIp=ENABLED}" \
+                    --network-configuration awsvpcConfiguration={subnets=[$SUBNET_JSON],securityGroups=["$SG_ID"],assignPublicIp=ENABLED} \
                     --load-balancers targetGroupArn=$TG_ARN,containerName=ljs-frontend,containerPort=3000 \
                     --region "$AWS_DEFAULT_REGION" \
                     --tags key="Name",value="$APP_NAME"
