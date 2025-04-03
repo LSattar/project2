@@ -73,6 +73,7 @@ pipeline {
                         -Dsonar.projectKey=jenkins-scan \
                         -Dsonar.projectName=jenkins-scan \
                         -Dsonar.projectVersion=1.0 \
+                        -Dsonar.java.binaries=project2/tax-tracker/target/classes \
                         -Dsonar.sources=. 
 
                         echo "Code scanning complete. Check SonarQube for analysis"
