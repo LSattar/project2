@@ -13,9 +13,12 @@ pipeline {
     }
     stages {
         stage('Maven Build') {
+            environment{
+                MAVEN_HOME = tool 'Maven'
+            }
             steps {
                 dir('project2/tax-tracker') {
-                    sh 'mvn clean package -DskipTests'
+                    sh '${MAVEN_HOME}/bin/mvn clean package -DskipTests'
                 }
             }
         }
