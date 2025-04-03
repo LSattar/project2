@@ -77,8 +77,11 @@ pipeline {
                     --region "$AWS_DEFAULT_REGION" \
                     --output text)
 
-                    SUBNET_JSON=$(printf '"%s"' $SUBNET_IDS | sed 's/ /","/g')
+                    SUBNET_JSON=$(printf '"%s",' $SUBNET_IDS | sed 's/,$//')
                     NETWORK_CONFIG="awsvpcConfiguration={subnets=[$SUBNET_JSON],securityGroups=[\"$SG_ID\"],assignPublicIp=\"ENABLED\"}"
+
+                    echo "Network config:"
+                    echo $NETWORK_CONFIG
 
                     SG_ID=$(aws ec2 describe-security-groups \
                     --filters Name=group-name,Values="$AWS_SECURITY_GROUP" \
