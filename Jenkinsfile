@@ -12,7 +12,13 @@ pipeline {
 
     }
     stages {
-    
+        stage('Maven Build') {
+            steps {
+                dir('project2/tax-tracker') {
+                    sh 'mvn clean package -DskipTests'
+                }
+            }
+        }
         stage ('Build Docker Image & Push to ECR') {
             agent {
                 docker{
