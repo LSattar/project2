@@ -12,17 +12,17 @@ export default  function Home() {
         </div>
         <hr></hr>
 
-<div className = "container">
+<div className = "home-container">
             <div className="home-column">
-            <img className = "home-image" src="/images/person.png"></img>
+            <img className = "home-image" src="/images/person.png" alt="clients icon"></img>
                 <p><Link to="/clients">Manage Clients</Link></p>
             </div>
             <div className="home-column">
-                <img className = "home-image" src="/images/tax.png"></img>
+                <img className = "home-image" src="/images/tax.png" alt="tax returns icon"></img>
         <p><Link to="/tax-returns">Check Returns</Link></p>
 </div>
 <div className="home-column">
-<img className = "home-image" src="/images/money.png"></img>
+<img className = "home-image" src="/images/money.png" alt="payments icon"></img>
         <p><Link to="/payments">View Payments</Link></p>
 </div>
         </div>

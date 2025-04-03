@@ -22,6 +22,7 @@ h2 {
 
 input {
   font-size: 16px;
+  margin-left:5px;
 }
 
 .main-content {
@@ -168,4 +169,8 @@ h3 {
 
 .column{
   padding: 20px;
+}
+
+.container{
+  padding:10px;
 }

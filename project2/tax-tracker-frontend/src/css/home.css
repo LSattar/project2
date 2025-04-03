@@ -10,10 +10,12 @@
   padding-bottom: 25px;
 }
 
-  .container{
+  .home-container{
     padding: 10px;
     padding-left: 100px;
     padding-right: 100px;
+    display: flex;
+    justify-content: space-between;
   }
 
   .home-column{

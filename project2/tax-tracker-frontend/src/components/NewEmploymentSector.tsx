@@ -48,7 +48,7 @@ export const NewEmploymentSector = ({ onCancel, onSuccess }: NewEmploymentSector
                 </label>
                 {errorMessage && <p className="error-message">{errorMessage}</p>}
                 <div className="profile-buttons">
-                    <input type="submit" value="Submit" />
+                    <input type="submit" className="button-save" value="Submit" />
                     <button type="button" className="button-cancel" onClick={onCancel}>Cancel</button>
                 </div>
             </form>
