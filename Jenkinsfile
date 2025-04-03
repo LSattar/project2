@@ -11,7 +11,6 @@ pipeline {
             AWS_ALB = "ljs-project2-alb"
             AWS_TG = "ljs-project2-tg"
             AWS_SECURITY_GROUP="ljs-project2-securitygroup"
-
     }
     stages {
         stage('Maven Build') {
