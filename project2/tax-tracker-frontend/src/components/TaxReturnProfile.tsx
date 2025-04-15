@@ -5,6 +5,8 @@ import React from 'react';
 import '../css/clientprofile.css';
 import { EditTaxReturn } from "./EditTaxReturn";
 
+const API_URL = process.env.REACT_APP_URL!;
+
 interface TaxReturnProfileProps {
     taxReturnId: number;
     onClose: () => void;
@@ -24,7 +26,7 @@ export const TaxReturnProfile = ({ taxReturnId, onClose }: TaxReturnProfileProps
 
         const fetchTaxReturn = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/tax-return/${taxReturnId}`);
+                const response = await axios.get(`${API_URL}/tax-return/${taxReturnId}`);
                 setTaxReturn(response.data);
             } catch (error) {
                 console.error("Error fetching tax return details:", error);
@@ -36,7 +38,7 @@ export const TaxReturnProfile = ({ taxReturnId, onClose }: TaxReturnProfileProps
 
     const updateTaxReturn = async (updatedTaxReturn: TaxReturn): Promise<void> => {
         try {
-            await axios.put(`http://localhost:8080/tax-return/${updatedTaxReturn.id}`, updatedTaxReturn);
+            await axios.put(`${API_URL}/tax-return/${updatedTaxReturn.id}`, updatedTaxReturn);
             setTaxReturn(updatedTaxReturn);
             setIsEditing(false);
         } catch (error) {
@@ -47,7 +49,7 @@ export const TaxReturnProfile = ({ taxReturnId, onClose }: TaxReturnProfileProps
     useEffect(() => {
         const getTaxReturnBalance = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/payment/tax-return/${taxReturnId}/balance`);
+                const response = await axios.get(`${API_URL}/payment/tax-return/${taxReturnId}/balance`);
                 setBalance(response.data); 
             } catch (error) {
                 console.error("Error fetching balance:", error);

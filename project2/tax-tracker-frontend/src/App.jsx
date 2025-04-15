@@ -1,12 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Header } from "./components/Header.tsx";
-import { Sidebar } from "./components/Sidebar.tsx";
-import { Clients } from "./pages/Clients.tsx";
-import { TaxReturns } from "./pages/TaxReturns.tsx";
-import { EmploymentSectors } from "./pages/EmploymentSectors.tsx";
-import { Payments } from "./pages/Payments.tsx";
-import Home from "./pages/Home.tsx";
+import { Sidebar } from "./components/Sidebar";
+import { Clients } from "./pages/Clients";
+import { TaxReturns } from "./pages/TaxReturns";
+import { EmploymentSectors } from "./pages/EmploymentSectors";
+import { Payments } from "./pages/Payments";
+import Home from "./pages/Home";
 
 export default function App() {
   return (

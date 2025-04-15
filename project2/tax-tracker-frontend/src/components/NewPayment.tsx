@@ -5,6 +5,9 @@ import axios from 'axios';
 import '../css/clientprofile.css';
 import { Payment } from '../models/Payment';
 
+const API_URL = process.env.REACT_APP_URL!;
+
+
 export const NewPayment = ({ addPaymentToList, onCancel }: { addPaymentToList: (newPayment: any) => void, onCancel: () => void }) => {
     const [taxReturns, setTaxReturns] = useState<TaxReturn[]>([]);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -17,7 +20,7 @@ export const NewPayment = ({ addPaymentToList, onCancel }: { addPaymentToList: (
     useEffect(() => {
         const fetchTaxReturns = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/tax-return");
+                const response = await axios.get(`${API_URL}/tax-return`);
                 setTaxReturns(response.data.map((taxReturn: any) =>
                     new TaxReturn(
                         taxReturn.id,
@@ -65,7 +68,7 @@ export const NewPayment = ({ addPaymentToList, onCancel }: { addPaymentToList: (
                 taxReturn: { id: selectedTaxReturnId }
             };
 
-            const createResponse = await axios.post("http://localhost:8080/payment", newPayment);
+            const createResponse = await axios.post(`${API_URL}/payment`, newPayment);
 
             addPaymentToList(createResponse.data);
             onCancel();

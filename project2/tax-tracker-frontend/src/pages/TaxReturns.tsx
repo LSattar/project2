@@ -11,6 +11,8 @@ import { NewTaxReturn } from '../components/NewTaxReturn';
 import { EmploymentSector } from '../models/EmploymentSector';
 import { getAllEmploymentSectors } from '../services/employmentSectorService';
 
+const API_URL = process.env.REACT_APP_URL!;
+
 export const TaxReturns = () => {
     const [taxReturns, setTaxReturns] = useState<TaxReturn[]>([]);
     const [selectedTaxReturnId, setSelectedTaxReturnId] = useState<number | null>(null);
@@ -37,7 +39,7 @@ export const TaxReturns = () => {
 
     const getAllTaxReturns = async () => {
         try {
-            let url = "http://localhost:8080/tax-return";
+            let url = `${API_URL}/tax-return`;
 
             if (selectedSector) {
                 url += `/employment-sector/${selectedSector}`;
@@ -76,7 +78,7 @@ export const TaxReturns = () => {
         if (!window.confirm("Are you sure you want to delete this tax return?")) return;
 
         try {
-            await axios.delete(`http://localhost:8080/tax-return/${id}`);
+            await axios.delete(`${API_URL}/tax-return/${id}`);
             setTaxReturns((prevTaxReturns) => prevTaxReturns.filter(taxReturn => taxReturn.id !== id));
         } catch (error) {
             console.error("Error deleting tax return:", error);
@@ -102,11 +104,11 @@ export const TaxReturns = () => {
                 filingStatus: taxReturn.filingStatus
             };
 
-            const apiUrl = `http://localhost:8080/tax-return/${taxReturn.id}`;
+            const apiUrl = `${API_URL}/tax-return/${taxReturn.id}`;
             await axios.put(apiUrl, taxReturnPayload);
 
             // Retrieve latest data after update
-            const updatedTaxReturns = await axios.get("http://localhost:8080/tax-return");
+            const updatedTaxReturns = await axios.get(`${API_URL}/tax-return`);
             setTaxReturns(updatedTaxReturns.data.map((taxReturn: any) =>
                 new TaxReturn(
                     taxReturn.id,

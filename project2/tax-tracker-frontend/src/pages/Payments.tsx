@@ -5,6 +5,8 @@ import axios from "axios";
 import { NewPayment } from "../components/NewPayment";
 import { EditPayment } from "../components/EditPayment";
 
+const API_URL = process.env.REACT_APP_URL!;
+
 export const Payments = () => {
     const [payments, setPayments] = useState<Payment[]>([]);
     const [selectedPaymentId, setSelectedPaymentId] = useState<number | null>(null);
@@ -17,7 +19,7 @@ export const Payments = () => {
 
     const getAllPayments = async () => {
         try {
-            const response = await axios.get("http://localhost:8080/payment", {
+            const response = await axios.get(`${API_URL}/payment`, {
             });
 
             setPayments(response.data.map((payment: any) =>
@@ -43,7 +45,7 @@ export const Payments = () => {
         if (!window.confirm("Are you sure you want to delete this payment?")) return;
 
         try {
-            await axios.delete(`http://localhost:8080/payment/${id}`);
+            await axios.delete(`${API_URL}/payment/${id}`);
             setPayments((prevPayments) => prevPayments.filter(payment => payment.id !== id));
         } catch (error) {
             console.error("Error deleting payment:", error);
@@ -52,7 +54,7 @@ export const Payments = () => {
 
     const updatePayment = async (payment: Payment): Promise<void> => {
         try {
-            await axios.put(`http://localhost:8080/payment/${payment.id}`, {
+            await axios.put(`${API_URL}/payment/${payment.id}`, {
                 amount: payment.amount,
                 date: payment.date,
                 taxReturn: payment.taxReturn,

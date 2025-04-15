@@ -1,9 +1,12 @@
 import axios from "axios";
 import { EmploymentSector } from "../models/EmploymentSector";
 
+const API_URL = process.env.REACT_APP_URL!;
+
+
 export const getAllEmploymentSectors = async (): Promise<EmploymentSector[]> => {
     try {
-        const response = await axios.get("http://localhost:8080/employment-sector");
+        const response = await axios.get(`${API_URL}/employment-sector`);
         return response.data.map((sector: any) => 
             new EmploymentSector(sector.id, sector.employmentSectorName)
         );

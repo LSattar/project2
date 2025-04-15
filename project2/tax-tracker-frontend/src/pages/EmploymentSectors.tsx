@@ -6,6 +6,9 @@ import { Capitalize } from '../Capitalize';
 import { NewEmploymentSector } from '../components/NewEmploymentSector';
 import { EditEmploymentSector } from '../components/EditEmploymentSector';
 
+const API_URL = process.env.REACT_APP_URL!;
+
+
 export const EmploymentSectors = () => {
     const [employmentSectors, setEmploymentSectors] = useState<EmploymentSector[]>([]);
     const [selectedEmploymentSectorId, setSelectedEmploymentSectorId] = useState<number | null>(null);
@@ -18,7 +21,7 @@ export const EmploymentSectors = () => {
 
         try {
             const startsWithValue = startsWith.current?.value?.trim() || "";
-            const response = await axios.get("http://localhost:8080/employment-sector", {
+            const response = await axios.get(`${API_URL}/employment-sector`, {
                 params: startsWithValue ? { startsWith: startsWithValue } : {}
             });
 
@@ -46,7 +49,7 @@ export const EmploymentSectors = () => {
         }
 
         try {
-            await axios.post("http://localhost:8080/employment-sector", {
+            await axios.post(`${API_URL}/employment-sector`, {
                 employmentSectorName: Capitalize(addFormName.current.value)
             });
 
@@ -66,7 +69,7 @@ export const EmploymentSectors = () => {
         if (!window.confirm("Are you sure you want to delete this employment sector?")) return;
 
         try {
-            await axios.delete(`http://localhost:8080/employment-sector/${id}`);
+            await axios.delete(`${API_URL}/employment-sector/${id}`);
             setEmploymentSectors((prevSectors) => prevSectors.filter(sector => sector.id !== id));
         } catch (error) {
             console.error("Error deleting employment sector:", error);

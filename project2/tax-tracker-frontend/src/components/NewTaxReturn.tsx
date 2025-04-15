@@ -4,6 +4,9 @@ import { Client } from "../models/Client";
 import { Cpa } from "../models/Cpa";
 import { EmploymentSector } from "../models/EmploymentSector";
 
+const API_URL = process.env.REACT_APP_URL!;
+
+
 interface NewTaxReturnProps {
     addTaxReturnToList: (newTaxReturn: any) => void;
     onCancel: () => void;
@@ -32,9 +35,9 @@ export const NewTaxReturn = ({ addTaxReturnToList, onCancel }: NewTaxReturnProps
         const fetchData = async () => {
             try {
                 const [clientsRes, cpasRes, employmentSectorsRes] = await Promise.all([
-                    axios.get("http://localhost:8080/client"),
-                    axios.get("http://localhost:8080/cpa"),
-                    axios.get("http://localhost:8080/employment-sector")
+                    axios.get(`${API_URL}/client`),
+                    axios.get(`${API_URL}/cpa`),
+                    axios.get(`${API_URL}/employment-sector`)
                 ]);
 
                 setClients(clientsRes.data);
@@ -67,7 +70,7 @@ export const NewTaxReturn = ({ addTaxReturnToList, onCancel }: NewTaxReturnProps
                 filingStatus: inputFilingStatus.current?.value || "",
             };
 
-            const response = await axios.post("http://localhost:8080/tax-return", newTaxReturn);
+            const response = await axios.post(`${API_URL}/tax-return`, newTaxReturn);
             addTaxReturnToList(response.data);
             onCancel();
         } catch (error) {
