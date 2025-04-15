@@ -5,6 +5,8 @@ import { TaxReturn } from "../models/TaxReturn";
 import React from 'react';
 import '../css/clientprofile.css';
 
+const API_URL = process.env.REACT_APP_URL!;
+
 interface EditPaymentProps {
     payment: Payment;
     updatePayment: (payment: Payment) => Promise<void>;
@@ -23,7 +25,7 @@ export const EditPayment = ({ payment, updatePayment, onCancel }: EditPaymentPro
     useEffect(() => {
         const fetchTaxReturns = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/tax-return");
+                const response = await axios.get(`${API_URL}/tax-return`);
                 setTaxReturns(response.data.map((taxReturn: any) =>
                     new TaxReturn(
                         taxReturn.id,

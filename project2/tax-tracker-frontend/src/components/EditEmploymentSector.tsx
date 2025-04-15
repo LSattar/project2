@@ -3,6 +3,8 @@ import axios from "axios";
 import { EmploymentSector } from "../models/EmploymentSector";
 import '../css/clientprofile.css'
 
+const API_URL = process.env.REACT_APP_URL!;
+
 interface EmploymentSectorProps {
     employmentSectorId: number | null;
     onClose: () => void;
@@ -19,7 +21,7 @@ export const EditEmploymentSector = ({ employmentSectorId, onClose, onSuccess }:
 
         const fetchEmploymentSector = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/employment-sector/${employmentSectorId}`);
+                const response = await axios.get(`${API_URL}/employment-sector/${employmentSectorId}`);
                 setEmploymentSector(new EmploymentSector(response.data.id, response.data.employmentSectorName));
                 setNewName(response.data.employmentSectorName);
             } catch (error) {
@@ -41,7 +43,7 @@ export const EditEmploymentSector = ({ employmentSectorId, onClose, onSuccess }:
         }
 
         try {
-            await axios.put(`http://localhost:8080/employment-sector/${employmentSectorId}`, {
+            await axios.put(`${API_URL}/employment-sector/${employmentSectorId}`, {
                 employmentSectorName: newName.trim()
             });
 

@@ -20,10 +20,12 @@ export const Clients = () => {
     myHeaders.set('Content-Type', 'application/json');
 
     useEffect(() => {
+        console.log(`API URL: ${API_URL}`);
         getAllClients();
     }, []);
 
     const getAllClients = async (event?: React.FormEvent) => {
+        console.log(`API URL: ${API_URL}`);
         if (event) event.preventDefault();
 
         try {

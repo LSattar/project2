@@ -6,6 +6,9 @@ import '../css/clientprofile.css';
 import { EmploymentSector } from "../models/EmploymentSector";
 import { Cpa } from "../models/Cpa";
 
+const API_URL = process.env.REACT_APP_URL!;
+
+
 interface EditTaxReturnProps {
     taxReturn: TaxReturn;
     updateTaxReturn: (taxReturn: TaxReturn) => Promise<void>;
@@ -29,7 +32,7 @@ export const EditTaxReturn = ({ taxReturn, updateTaxReturn, onCancel }: EditTaxR
     useEffect(() => {
         const fetchCpas = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/cpa");
+                const response = await axios.get(`${API_URL}/cpa`);
                 setCpas(response.data.map((cpa: any) =>
                     new Cpa(
                         cpa.id,
@@ -57,7 +60,7 @@ export const EditTaxReturn = ({ taxReturn, updateTaxReturn, onCancel }: EditTaxR
     useEffect(() => {
         const fetchEmploymentSectors = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/employment-sector");
+                const response = await axios.get(`${API_URL}/employment-sector`);
                 setEmploymentSectors(response.data.map((sector: any) =>
                     new EmploymentSector(sector.id, sector.employmentSectorName)
                 ));
@@ -97,7 +100,7 @@ export const EditTaxReturn = ({ taxReturn, updateTaxReturn, onCancel }: EditTaxR
     
         try {
             console.log("Sending update request to server:", updatedTaxReturn);
-            const response = await axios.put(`http://localhost:8080/tax-return/${taxReturn.id}`, updatedTaxReturn);
+            const response = await axios.put(`${API_URL}/tax-return/${taxReturn.id}`, updatedTaxReturn);
             console.log("Response from server:", response.data);
     
             await updateTaxReturn(updatedTaxReturn);
