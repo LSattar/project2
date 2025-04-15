@@ -6,8 +6,8 @@ COPY tax-tracker-frontend ./
 RUN npm run build
 
 COPY tax-tracker-frontend/.env .env
-COPY tax-tracker-frontend/ ./
 
 FROM nginx:1.27-alpine
 COPY --from=builder /app/build /usr/share/nginx/html
+COPY default.conf /etc/nginx/conf.d/default.conf
 CMD ["nginx", "-g", "daemon off;"]
