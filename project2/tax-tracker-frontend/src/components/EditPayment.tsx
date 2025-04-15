@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Payment } from "../models/Payment.ts";
-import { TaxReturn } from "../models/TaxReturn.ts";
+import { Payment } from "../models/Payment";
+import { TaxReturn } from "../models/TaxReturn";
 import React from 'react';
 import '../css/clientprofile.css';
 

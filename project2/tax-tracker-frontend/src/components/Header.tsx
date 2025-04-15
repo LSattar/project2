@@ -1,4 +1,4 @@
-import { NavBar } from "./NavBar.tsx";
+import { NavBar } from "./NavBar";
 import React from 'react';
 import '../css/header.css';
 

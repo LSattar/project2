@@ -1,8 +1,10 @@
 import { useRef, useState } from "react";
 import axios from "axios";
-import { EmploymentSector } from "../models/EmploymentSector.ts";
+import { EmploymentSector } from "../models/EmploymentSector";
 import React from "react";
-import { Capitalize } from "../Capitalize.ts";
+import { Capitalize } from "../Capitalize";
+
+const API_URL = process.env.REACT_APP_URL!;
 
 interface NewEmploymentSectorProps {
     onCancel: () => void;
@@ -23,7 +25,7 @@ export const NewEmploymentSector = ({ onCancel, onSuccess }: NewEmploymentSector
         }
 
         try {
-            await axios.post("http://localhost:8080/employment-sector", {
+            await axios.post(`${API_URL}/employment-sector`, {
                 employmentSectorName: Capitalize(addFormEmploymentSectorName.current.value)
             });
 

@@ -1,4 +1,4 @@
-import { NavLink } from './NavLink.tsx';
+import { NavLink } from './NavLink';
 import React from "react"
 
 type LinkType = {

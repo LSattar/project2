@@ -1,10 +1,13 @@
 import React from 'react';
-import { Client } from '../models/Client.ts';
+import { Client } from '../models/Client';
 import { useState, useEffect, useRef } from 'react';
-import { EmploymentSector } from '../models/EmploymentSector.ts';
+import { EmploymentSector } from '../models/EmploymentSector';
 import axios from 'axios';
-import { Capitalize } from '../Capitalize.ts';
+import { Capitalize } from '../Capitalize';
 import '../css/clientprofile.css';
+
+const API_URL = process.env.REACT_APP_URL!;
+
 
 export const NewClient = ({ addClientToList, onCancel }: { addClientToList: (newClient: any) => void, onCancel: () => void }) => {
     const [employmentSectors, setEmploymentSectors] = useState<EmploymentSector[]>([]);
@@ -27,7 +30,7 @@ export const NewClient = ({ addClientToList, onCancel }: { addClientToList: (new
     useEffect(() => {
         const fetchEmploymentSectors = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/employment-sector");
+                const response = await axios.get(`${API_URL}/employment-sector`);
                 setEmploymentSectors(response.data.map((sector: any) =>
                     new EmploymentSector(sector.id, sector.employmentSectorName)
                 ));
@@ -51,7 +54,7 @@ export const NewClient = ({ addClientToList, onCancel }: { addClientToList: (new
         }
 
         try {
-            const response = await axios.get(`http://localhost:8080/client/by-ssn/${enteredSSN}`);
+            const response = await axios.get(`${API_URL}/client/by-ssn/${enteredSSN}`);
 
             if (response.status === 200) {
                 const existingClient = response.data;
@@ -102,7 +105,7 @@ export const NewClient = ({ addClientToList, onCancel }: { addClientToList: (new
                 employmentSector: selectedSectorId ? { id: selectedSectorId } : null
             };
 
-            const createResponse = await axios.post("http://localhost:8080/client", newClient);
+            const createResponse = await axios.post(`${API_URL}/client`, newClient);
 
             addClientToList(createResponse.data);
             onCancel();
@@ -131,7 +134,7 @@ export const NewClient = ({ addClientToList, onCancel }: { addClientToList: (new
                 active: true
             };
 
-            const response = await axios.put(`http://localhost:8080/client/${clientId}`, updatedClient);
+            const response = await axios.put(`${API_URL}/client/${clientId}`, updatedClient);
 
             console.log("Client reactivated:", response.data);
             addClientToList(response.data);

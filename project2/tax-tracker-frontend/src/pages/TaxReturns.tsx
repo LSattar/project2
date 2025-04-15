@@ -1,15 +1,15 @@
 import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
-import { Client } from '../models/Client.ts';
+import { Client } from '../models/Client';
 import React from 'react';
-import { ClientProfile } from '../components/ClientProfile.tsx';
-import { TaxReturn } from '../models/TaxReturn.ts';
-import { Cpa } from '../models/Cpa.ts';
-import { TaxReturnProfile } from '../components/TaxReturnProfile.tsx';
-import { EditTaxReturn } from '../components/EditTaxReturn.tsx';
-import { NewTaxReturn } from '../components/NewTaxReturn.tsx';
-import { EmploymentSector } from '../models/EmploymentSector.ts';
-import { getAllEmploymentSectors } from '../services/employmentSectorService.ts';
+import { ClientProfile } from '../components/ClientProfile';
+import { TaxReturn } from '../models/TaxReturn';
+import { Cpa } from '../models/Cpa';
+import { TaxReturnProfile } from '../components/TaxReturnProfile';
+import { EditTaxReturn } from '../components/EditTaxReturn';
+import { NewTaxReturn } from '../components/NewTaxReturn';
+import { EmploymentSector } from '../models/EmploymentSector';
+import { getAllEmploymentSectors } from '../services/employmentSectorService';
 
 export const TaxReturns = () => {
     const [taxReturns, setTaxReturns] = useState<TaxReturn[]>([]);

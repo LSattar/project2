@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Client } from "../models/Client.ts";
-import { Cpa } from "../models/Cpa.ts";
-import { EmploymentSector } from "../models/EmploymentSector.ts";
+import { Client } from "../models/Client";
+import { Cpa } from "../models/Cpa";
+import { EmploymentSector } from "../models/EmploymentSector";
 
 interface NewTaxReturnProps {
     addTaxReturnToList: (newTaxReturn: any) => void;
@@ -71,16 +71,16 @@ export const NewTaxReturn = ({ addTaxReturnToList, onCancel }: NewTaxReturnProps
             addTaxReturnToList(response.data);
             onCancel();
         } catch (error) {
-            if (error.response.status === 409) {
-                console.log("409 error")
-                setErrorMessage("Client already has a return for this year, please verify entry and try again")
-            } else if (error.response.status === 406){
-                setErrorMessage("CPA has met their maximum returns for this year, please verify and try again")
-            }
-            else{
-                console.error("Error adding tax return:", error);
-                setErrorMessage("Failed to create tax return. Please try again.");
-            }
+            // if (error.response.status === 409) {
+            //     console.log("409 error")
+            //     setErrorMessage("Client already has a return for this year, please verify entry and try again")
+            // } else if (error.response.status === 406){
+            //     setErrorMessage("CPA has met their maximum returns for this year, please verify and try again")
+            // }
+            // else{
+            //     console.error("Error adding tax return:", error);
+            //     setErrorMessage("Failed to create tax return. Please try again.");
+            // }
         }
     };
 

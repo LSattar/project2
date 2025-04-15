@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Client } from "../models/Client.ts";
+import { Client } from "../models/Client";
 import React from 'react';
 import '../css/clientprofile.css';
-import { EditClient } from "./EditClient.tsx";
+import { EditClient } from "./EditClient";
+
+const API_URL = process.env.REACT_APP_URL!;
 
 interface ClientProfileProps {
     clientId: number;
@@ -23,7 +25,7 @@ export const ClientProfile = ({ clientId, onClose, getAllClients }: ClientProfil
 
         const fetchClient = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/client/${clientId}`);
+                const response = await axios.get(`${API_URL}/client/${clientId}`);
                 const clientData = response.data;
                 setClient(new Client(
                     clientData.id, clientData.firstName, clientData.lastName,
@@ -41,7 +43,7 @@ export const ClientProfile = ({ clientId, onClose, getAllClients }: ClientProfil
 
     const updateClient = async (updatedClient: Client) => {
         try {
-            await axios.put(`http://localhost:8080/client/${updatedClient.id}`, updatedClient);
+            await axios.put(`${API_URL}/client/${updatedClient.id}`, updatedClient);
             setClient(updatedClient);
             setIsEditing(false); 
         } catch (error) {
@@ -52,7 +54,7 @@ export const ClientProfile = ({ clientId, onClose, getAllClients }: ClientProfil
     useEffect(() => {
         const getClientBalance = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/payment/client/${clientId}/balance`);
+                const response = await axios.get(`${API_URL}/payment/client/${clientId}/balance`);
                 setBalance(response.data); 
             } catch (error) {
                 console.error("Error fetching balance:", error);
@@ -68,7 +70,7 @@ export const ClientProfile = ({ clientId, onClose, getAllClients }: ClientProfil
         if (!window.confirm("Are you sure you want to make this client inactive? This record can only be re-activated using this client's social security number.")) return;
     
         try {
-            await axios.put(`http://localhost:8080/client/${deactivatedClient.id}/deactivate`);
+            await axios.put(`${API_URL}/client/${deactivatedClient.id}/deactivate`);
             
             setIsEditing(false); 
             onClose();

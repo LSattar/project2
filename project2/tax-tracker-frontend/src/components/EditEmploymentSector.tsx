@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { EmploymentSector } from "../models/EmploymentSector.ts";
+import { EmploymentSector } from "../models/EmploymentSector";
 import '../css/clientprofile.css'
 
 interface EmploymentSectorProps {

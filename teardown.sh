@@ -97,8 +97,6 @@ aws elbv2 delete-target-group \
   --target-group-arn "$TG_ARN" \
   --region "$REGION"
 
-# (Optional delay — no wait command exists for target group deletion)
-echo "Sleeping briefly to allow Target Group deletion..."
 sleep 15
 
 # Delete ECS Cluster

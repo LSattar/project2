@@ -1,4 +1,4 @@
-import { EmploymentSector } from "./EmploymentSector.ts";
+import { EmploymentSector } from "./EmploymentSector";
 
 export class Client {
     id: number;

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { TaxReturn } from "../models/TaxReturn.ts";
+import { TaxReturn } from "../models/TaxReturn";
 import React from 'react';
 import '../css/clientprofile.css';
-import { EditTaxReturn } from "./EditTaxReturn.tsx";
+import { EditTaxReturn } from "./EditTaxReturn";
 
 interface TaxReturnProfileProps {
     taxReturnId: number;

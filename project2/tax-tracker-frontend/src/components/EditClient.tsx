@@ -1,9 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Client } from "../models/Client.ts";
+import { Client } from "../models/Client";
 import React from 'react';
 import '../css/clientprofile.css'
-import { EmploymentSector } from "../models/EmploymentSector.ts";
+import { EmploymentSector } from "../models/EmploymentSector";
+
+const API_URL = process.env.REACT_APP_URL!;
+
 
 interface EditClientProps {
     client: Client;
@@ -31,7 +34,7 @@ export const EditClient = ({ client, updateClient, onCancel }: EditClientProps) 
     useEffect(() => {
         const fetchEmploymentSectors = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/employment-sector");
+                const response = await axios.get(`${API_URL}/employment-sector`);
                 setEmploymentSectors(response.data.map((sector: any) =>
                     new EmploymentSector(sector.id, sector.employmentSectorName)
                 ));

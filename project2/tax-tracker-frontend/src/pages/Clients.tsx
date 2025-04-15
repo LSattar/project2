@@ -1,10 +1,14 @@
 import axios, { AxiosHeaders } from 'axios';
 import { useState, useEffect, useRef } from 'react';
-import { Client } from '../models/Client.ts';
+import { Client } from '../models/Client';
 import React from 'react';
-import { ClientProfile } from '../components/ClientProfile.tsx';
-import { EditClient } from '../components/EditClient.tsx';
-import { NewClient } from '../components/NewClient.tsx';
+import { ClientProfile } from '../components/ClientProfile';
+import { EditClient } from '../components/EditClient';
+import { NewClient } from '../components/NewClient';
+
+const API_URL = process.env.REACT_APP_URL!;
+
+
 
 export const Clients = () => {
     const [clients, setClients] = useState<Client[]>([]);
@@ -24,7 +28,7 @@ export const Clients = () => {
 
         try {
             const startsWithValue = startsWith.current.value.trim();
-            const response = await axios.get("http://localhost:8080/client", {
+            const response = await axios.get(`${API_URL}/client`, {
                 headers: myHeaders,
                 params: startsWithValue ? { startsWith: startsWithValue } : {}
             });
@@ -51,7 +55,7 @@ export const Clients = () => {
 
     const updateClient = async (client: Client): Promise<void> => {
         try {
-            await axios.put(`http://localhost:8080/client/${client.id}`, {
+            await axios.put(`${API_URL}/client/${client.id}`, {
                 firstName: client.firstName,
                 lastName: client.lastName,
                 ssn: client.ssn,

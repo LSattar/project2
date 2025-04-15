@@ -1,10 +1,10 @@
 import axios from 'axios';
 import React from 'react';
-import { EmploymentSector } from '../models/EmploymentSector.ts';
+import { EmploymentSector } from '../models/EmploymentSector';
 import { useState, useEffect, useRef } from 'react';
-import { Capitalize } from '../Capitalize.ts';
-import { NewEmploymentSector } from '../components/NewEmploymentSector.tsx';
-import { EditEmploymentSector } from '../components/EditEmploymentSector.tsx';
+import { Capitalize } from '../Capitalize';
+import { NewEmploymentSector } from '../components/NewEmploymentSector';
+import { EditEmploymentSector } from '../components/EditEmploymentSector';
 
 export const EmploymentSectors = () => {
     const [employmentSectors, setEmploymentSectors] = useState<EmploymentSector[]>([]);

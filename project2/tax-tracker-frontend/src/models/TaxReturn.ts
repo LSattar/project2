@@ -1,6 +1,6 @@
-import { Cpa } from "./Cpa.ts";
-import { Client } from "./Client.ts";
-import { EmploymentSector } from "./EmploymentSector.ts";
+import { Cpa } from "./Cpa";
+import { Client } from "./Client";
+import { EmploymentSector } from "./EmploymentSector";
 
 export class TaxReturn {
     id: number;

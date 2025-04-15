@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 import React from 'react';
-import { Payment } from "../models/Payment.ts";
+import { Payment } from "../models/Payment";
 import axios from "axios";
-import { NewPayment } from "../components/NewPayment.tsx";
-import { EditPayment } from "../components/EditPayment.tsx";
+import { NewPayment } from "../components/NewPayment";
+import { EditPayment } from "../components/EditPayment";
 
 export const Payments = () => {
     const [payments, setPayments] = useState<Payment[]>([]);

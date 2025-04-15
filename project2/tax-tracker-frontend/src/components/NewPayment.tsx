@@ -1,9 +1,9 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
-import { TaxReturn } from '../models/TaxReturn.ts';
+import { TaxReturn } from '../models/TaxReturn';
 import axios from 'axios';
 import '../css/clientprofile.css';
-import { Payment } from '../models/Payment.ts';
+import { Payment } from '../models/Payment';
 
 export const NewPayment = ({ addPaymentToList, onCancel }: { addPaymentToList: (newPayment: any) => void, onCancel: () => void }) => {
     const [taxReturns, setTaxReturns] = useState<TaxReturn[]>([]);

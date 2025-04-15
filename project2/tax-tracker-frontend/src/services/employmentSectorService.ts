@@ -1,5 +1,5 @@
 import axios from "axios";
-import { EmploymentSector } from "../models/EmploymentSector.ts";
+import { EmploymentSector } from "../models/EmploymentSector";
 
 export const getAllEmploymentSectors = async (): Promise<EmploymentSector[]> => {
     try {

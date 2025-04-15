@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { TaxReturn } from "../models/TaxReturn.ts";
+import { TaxReturn } from "../models/TaxReturn";
 import React from 'react';
 import '../css/clientprofile.css';
-import { EmploymentSector } from "../models/EmploymentSector.ts";
-import { Cpa } from "../models/Cpa.ts";
+import { EmploymentSector } from "../models/EmploymentSector";
+import { Cpa } from "../models/Cpa";
 
 interface EditTaxReturnProps {
     taxReturn: TaxReturn;
