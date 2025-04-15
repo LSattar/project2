@@ -20,6 +20,8 @@ ALB_NAME=${ALB_NAME:-ljs-project2-alb}
 read -p "Enter Target Group Name [default: ljs-project2-tg]: " TG_NAME
 TG_NAME=${TG_NAME:-ljs-project2-tg}
 
+set -e
+
 # Delete ECS Service
 echo "Deleting ECS service: $SERVICE_NAME"
 aws ecs update-service \
@@ -32,6 +34,12 @@ aws ecs delete-service \
   --cluster "$CLUSTER_NAME" \
   --service "$SERVICE_NAME" \
   --force \
+  --region "$REGION"
+
+echo "Waiting for ECS service to be inactive..."
+aws ecs wait services-inactive \
+  --cluster "$CLUSTER_NAME" \
+  --services "$SERVICE_NAME" \
   --region "$REGION"
 
 # Deregister task definitions
@@ -72,6 +80,11 @@ aws elbv2 delete-load-balancer \
   --load-balancer-arn "$ALB_ARN" \
   --region "$REGION"
 
+echo "Waiting for Load Balancer to be deleted..."
+aws elbv2 wait load-balancers-deleted \
+  --load-balancer-arns "$ALB_ARN" \
+  --region "$REGION"
+
 # Delete Target Group
 echo "Deleting Target Group: $TG_NAME"
 TG_ARN=$(aws elbv2 describe-target-groups \
@@ -83,6 +96,10 @@ TG_ARN=$(aws elbv2 describe-target-groups \
 aws elbv2 delete-target-group \
   --target-group-arn "$TG_ARN" \
   --region "$REGION"
+
+# (Optional delay — no wait command exists for target group deletion)
+echo "Sleeping briefly to allow Target Group deletion..."
+sleep 15
 
 # Delete ECS Cluster
 echo "Deleting ECS Cluster: $CLUSTER_NAME"

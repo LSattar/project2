@@ -19,16 +19,6 @@ pipeline {
         PUBLIC_SUBNET_2 = "subnet-03af6d1841ec8fdae"
     }
     stages {
-        stage('Maven Build') {
-            environment{
-                MAVEN_HOME = tool 'Maven'
-            }
-            steps {
-                dir('project2/tax-tracker') {
-                    sh '${MAVEN_HOME}/bin/mvn clean package -DskipTests'
-                }
-            }
-        }
         stage ('Build Docker Image & Push to ECR') {
             agent {
                 docker{
@@ -40,7 +30,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                     sh '''
-                    
+
                     set -e
 
                     aws sts get-caller-identity
@@ -50,18 +40,6 @@ pipeline {
                     aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ECR_REPO
 
                     echo "REACT_APP_VERSION=$REACT_APP_VERSION" > .env
-
-                    docker build --network=host \
-                        -t $AWS_ECR_REPO/$APP_NAME-frontend:$REACT_APP_VERSION \
-                        -f project2/Dockerfile project2
-
-                    docker push $AWS_ECR_REPO/$APP_NAME-frontend:$REACT_APP_VERSION
-
-                    docker build --network=host \
-                        -t $AWS_ECR_REPO/$APP_NAME-backend:$REACT_APP_VERSION \
-                        -f project2/tax-tracker/Dockerfile project2/tax-tracker
-
-                    docker push $AWS_ECR_REPO/$APP_NAME-backend:$REACT_APP_VERSION
 
                     echo "Looking up ECS Security Group..."
                     ECS_SG_ID=$(aws ec2 describe-security-groups \
@@ -145,42 +123,6 @@ pipeline {
                     echo "Deployment complete. Service '$AWS_ECS_SERVICE' is now running in ECS cluster '$AWS_ECS_CLUSTER'."
                     '''
 }
-            }
-        }
-        stage ('Deploy to AWS'){
-            agent{
-                docker{
-                    image 'aws-cli'
-                    args '--entrypoint=""'
-                    reuseNode true
-                }
-            }
-            steps {
-                withCredentials([usernamePassword
-                (credentialsId: 'aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY',
-                 usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
-                    sh '''
-                    aws --version
-
-                    # Swap version in ECS task definition
-                    sed -i "s/#APP_VERSION#/$REACT_APP_VERSION/g" aws/task-definition.json
-                    echo "Sending revised Task Definition to ECS"
-
-                    echo "task-definition.json values"
-                    cat aws/task-definition.json
-
-                    # Register new task definition
-                    LATEST_TD=$(
-                    aws ecs register-task-definition --cli-input-json file://aws/task-definition.json |
-                    jq '.taskDefinition.revision'
-                    )
-
-                    echo "Latest Task Definition Revision... $LATEST_TD"
-
-                    # Update ECS service
-                    aws ecs update-service --cluster $AWS_ECS_CLUSTER --service $AWS_ECS_SERVICE --task-definition $AWS_ECS_TD:$LATEST_TD
-                    '''
-                 }
             }
         }
     }

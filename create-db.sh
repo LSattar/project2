@@ -33,29 +33,39 @@ aws rds create-db-subnet-group \
   --subnet-ids "$PRIVATE_SUBNET_1" "$PRIVATE_SUBNET_2" \
   --region "$REGION"
 
-# Create Aurora DB Cluster using custom subnet group
+# Create Aurora Serverless v2 DB Cluster
+echo "Creating Aurora Serverless v2 DB cluster..."
 aws rds create-db-cluster \
   --db-cluster-identifier "$DB_CLUSTER_NAME" \
-  --database-name "$DB_NAME" \
-  --region "$REGION" \
   --engine aurora-mysql \
   --engine-version 8.0.mysql_aurora.3.05.2 \
+  --database-name "$DB_NAME" \
   --master-username "$DB_USERNAME" \
   --master-user-password "$DB_PASSWORD" \
   --vpc-security-group-ids "$SG_ID" \
-  --db-subnet-group-name "$DB_SUBNET_GROUP_NAME"
+  --db-subnet-group-name "$DB_SUBNET_GROUP_NAME" \
+  --serverless-v2-scaling-configuration MinCapacity=0.5,MaxCapacity=2 \
+  --region "$REGION"
 
-# Wait for DB cluster to become available
+# Wait for DB cluster to be available
 echo "Waiting for DB cluster '$DB_CLUSTER_NAME' to become available..."
 aws rds wait db-cluster-available \
   --db-cluster-identifier "$DB_CLUSTER_NAME" \
   --region "$REGION"
 echo "DB cluster is now available."
 
-# Create DB instance
+# Create Aurora Serverless v2 Instance
+echo "Creating DB instance in Serverless v2 cluster..."
 aws rds create-db-instance \
   --db-instance-identifier "${DB_CLUSTER_NAME}-instance" \
   --db-cluster-identifier "$DB_CLUSTER_NAME" \
   --engine aurora-mysql \
-  --db-instance-class db.t3.medium \
+  --db-instance-class db.serverless \
   --region "$REGION"
+
+# Wait for DB instance to become available
+echo "Waiting for DB instance to become available..."
+aws rds wait db-instance-available \
+  --db-instance-identifier "${DB_CLUSTER_NAME}-instance" \
+  --region "$REGION"
+echo "Aurora Serverless v2 instance is now ready!"
